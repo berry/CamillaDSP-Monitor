@@ -1,0 +1,11 @@
+- type: Filter
+    channel: 0
+    names:
+      - ath_m50x_ash_ir_conv
+      - ath_m50x_diffuse_field_conv
+
+  - type: Filter
+    channel: 1
+    names:
+      - ath_m50x_ash_ir_conv
+      - ath_m50x_diffuse_field_conv

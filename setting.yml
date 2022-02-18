@@ -1,21 +1,37 @@
 ---
 devices:
-  samplerate: 48000
+  samplerate: 44100
   chunksize: 4096
   enable_rate_adjust: true
   capture:
     type: CoreAudio
-    device: "BlackHole 16ch"
+    device: "BlackHole 2ch"
     channels: 2
     format: FLOAT32LE
   playback:
     type: CoreAudio
     channels: 2
-    device: "iMac Pro Speakers"
+    device: "Externe koptelefoon"
     format: FLOAT32LE
     exclusive: true
 
 filters:
+
+  # ATH-M50x
+  # Sample rate must be set to 44100.
+  # See: https://github.com/ShanonPearce/ASH-IR-Dataset
+  ath_m50x_ash_ir_conv: 
+    type: Conv
+    parameters:
+      type: Wav 
+      filename: HpCFs_Audio-Technica_HpCF_Audio-Technica_ATH_M50x_Avg.wav
+
+  # See: https://github.com/ShanonPearce/ASH-IR-Dataset/wiki/Headphone-Compensation-Filters
+  ath_m50x_diffuse_field_conv: 
+    type: Conv
+    parameters:
+      type: Wav 
+      filename: HpCFs_Additional_Filters_Improved_Diffuse-Field_EQ.wav
 
 # Speaker room correction
 
