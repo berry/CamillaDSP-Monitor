@@ -17,17 +17,17 @@ devices:
 
 filters:
 
-  # ATH-M50x
-  # Sample rate must be set to 44100.
-  # See: https://github.com/ShanonPearce/ASH-IR-Dataset
-  ath_m50x_ash_ir_conv: 
+# ATH-M50x
+# Sample rate must be set to 44100.
+# See: https://github.com/ShanonPearce/ASH-IR-Dataset
+  ath_m50x_eq: 
     type: Conv
     parameters:
       type: Wav 
       filename: HpCFs_Audio-Technica_HpCF_Audio-Technica_ATH_M50x_Avg.wav
 
-  # See: https://github.com/ShanonPearce/ASH-IR-Dataset/wiki/Headphone-Compensation-Filters
-  ath_m50x_diffuse_field_conv: 
+# See: https://github.com/ShanonPearce/ASH-IR-Dataset/wiki/Headphone-Compensation-Filters
+  ath_m50x_comp: 
     type: Conv
     parameters:
       type: Wav 
