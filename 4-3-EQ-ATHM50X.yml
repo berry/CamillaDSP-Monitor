@@ -2,10 +2,10 @@
   channel: 0
   names:
     - ath_m50x_eq
-    - ath_m50x_comp
+    # - ath_m50x_comp
 
 - type: Filter
   channel: 1
   names:
     - ath_m50x_eq
-    - ath_m50x_comp
+    # - ath_m50x_comp
