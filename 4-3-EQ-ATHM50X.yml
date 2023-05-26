@@ -1,11 +1,11 @@
 - type: Filter
   channel: 0
   names:
-    - ath_m50x_eq
-    # - ath_m50x_comp
+    - gainHpCF
+    - ath_m50x_listening
 
 - type: Filter
   channel: 1
   names:
-    - ath_m50x_eq
-    # - ath_m50x_comp
+    - gainHpCF
+    - ath_m50x_listening

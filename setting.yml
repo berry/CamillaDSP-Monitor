@@ -1,6 +1,7 @@
 ---
 devices:
-  samplerate: 192000
+  samplerate: 44100 # necessary for ATH-M50x convolution filter. Is 44.1k indeed necessary? Yes. It does. The ath_m50x_eq filter does sound better with 44.1k
+  # samplerate: 192000
   chunksize: 4096
   enable_rate_adjust: true
   capture:
@@ -11,30 +12,23 @@ devices:
   playback:
     type: CoreAudio
     channels: 2
-    # device: "Externe koptelefoon"
-    device: "Scarlett 2i2 USB"
+    device: "Externe koptelefoon"
+    # device: "Scarlett 2i2 USB"
     format: FLOAT32LE
     exclusive: true
 
 filters:
-
-# ATH-M50x
-# Sample rate must be set to 44100.
-# See: https://github.com/ShanonPearce/ASH-IR-Dataset
-  ath_m50x_eq: 
+  # ATH-M50x
+  # Sample rate must be set to 44100.
+  # The Audio Spatialisation for Headphones (ASH) Listening Set is a continuation of the ASH-IR-Dataset project.
+  # See: https://github.com/ShanonPearce/ASH-Listening-Set/tree/main/HpCFs/FIRs/Audio-Technica
+  ath_m50x_listening:
     type: Conv
     parameters:
-      type: Wav 
-      filename: HpCFs_Audio-Technica_HpCF_Audio-Technica_ATH_M50x_Avg.wav
+      type: Wav
+      filename: HpCF_Audio-Technica_ATH_M50x__Average.wav
 
-# See: https://github.com/ShanonPearce/ASH-IR-Dataset/wiki/Headphone-Compensation-Filters
-  ath_m50x_comp: 
-    type: Conv
-    parameters:
-      type: Wav 
-      filename: HpCFs_Additional_Filters_Improved_Diffuse-Field_EQ.wav
-
-# Speaker room correction
+  # Speaker room correction
 
   leftFront_1:
     parameters:
@@ -276,7 +270,7 @@ filters:
       type: Peaking
     type: Biquad
 
-# Headphone EQ
+  # Headphone EQ
 
   band_1:
     parameters:
@@ -348,8 +342,8 @@ filters:
       q: 0.71
       type: Highshelf
     type: Biquad
- 
-# Headphone crossfeed
+
+  # Headphone crossfeed
 
   cx1_hi:
     parameters:
@@ -441,7 +435,7 @@ filters:
       gain: -5.5
       inverted: false
 
-# Phase Invert
+  # Phase Invert
 
   invert:
     type: Gain
@@ -449,14 +443,14 @@ filters:
       gain: 0.0
       inverted: true
 
-# Volume
+  # Volume
 
   volume:
     type: Volume
     parameters:
       ramp_time: 200
 
-# Loudness
+  # Loudness
 
   loudness:
     type: Loudness
@@ -466,7 +460,7 @@ filters:
       high_boost: 7.0
       low_boost: 7.0
 
-# DC Protection
+  # DC Protection
 
   dcp:
     parameters:
@@ -474,7 +468,7 @@ filters:
       type: HighpassFO
     type: Biquad
 
-# Emphasis
+  # Emphasis
 
   preemphasis:
     parameters:
@@ -483,7 +477,7 @@ filters:
       q: 0.5
       type: Highshelf
     type: Biquad
- 
+
   deemphasis:
     parameters:
       freq: 5200
@@ -492,101 +486,107 @@ filters:
       type: Highshelf
     type: Biquad
 
-mixers:
+  # Gain for Headphone Correction Filters
 
-# Width
+  gainHpCF:
+    type: Gain
+    parameters:
+      gain: 6
+
+mixers:
+  # Width
 
   mono:
     channels:
       in: 2
       out: 2
     mapping:
-    - dest: 0
-      sources:
-      - channel: 0
-        gain: -6.02
-      - channel: 1
-        gain: -6.02
-    - dest: 1
-      sources:
-      - channel: 0
-        gain: -6.02
-      - channel: 1
-        gain: -6.02
+      - dest: 0
+        sources:
+          - channel: 0
+            gain: -6.02
+          - channel: 1
+            gain: -6.02
+      - dest: 1
+        sources:
+          - channel: 0
+            gain: -6.02
+          - channel: 1
+            gain: -6.02
 
   swapped:
     channels:
       in: 2
       out: 2
     mapping:
-    - dest: 0
-      sources:
-        - channel: 1
-          gain: 0
-    - dest: 1
-      sources:
-        - channel: 0
-          gain: 0
+      - dest: 0
+        sources:
+          - channel: 1
+            gain: 0
+      - dest: 1
+        sources:
+          - channel: 0
+            gain: 0
 
-# M/S Proc
+  # M/S Proc
 
   msproc:
     channels:
       in: 2
       out: 2
     mapping:
-    - dest: 0
-      sources:
-      - channel: 0
-        gain: -6.02
-      - channel: 1
-        gain: -6.02
-    - dest: 1
-      sources:
-      - channel: 0
-        gain: -6.02
-      - channel: 1
-        gain: -6.02
-        inverted: true
+      - dest: 0
+        sources:
+          - channel: 0
+            gain: -6.02
+          - channel: 1
+            gain: -6.02
+      - dest: 1
+        sources:
+          - channel: 0
+            gain: -6.02
+          - channel: 1
+            gain: -6.02
+            inverted: true
 
-# Headphone crossfeed
+  # Headphone crossfeed
 
   2to4:
     channels:
       in: 2
       out: 4
     mapping:
-    - dest: 0
-      sources:
-      - channel: 0
-        gain: 0
-    - dest: 1
-      sources:
-      - channel: 0
-        gain: 0
-    - dest: 2
-      sources:
-      - channel: 1
-        gain: 0
-    - dest: 3
-      mute: false
-      sources:
-      - channel: 1
-        gain: 0
+      - dest: 0
+        sources:
+          - channel: 0
+            gain: 0
+      - dest: 1
+        sources:
+          - channel: 0
+            gain: 0
+      - dest: 2
+        sources:
+          - channel: 1
+            gain: 0
+      - dest: 3
+        mute: false
+        sources:
+          - channel: 1
+            gain: 0
   4to2:
     channels:
       in: 4
       out: 2
     mapping:
-    - dest: 0
-      sources:
-      - channel: 0
-        gain: 0
-      - channel: 2
-        gain: 0
-    - dest: 1
-      sources:
-      - channel: 1
-        gain: 0
-      - channel: 3
-        gain: 0
+      - dest: 0
+        sources:
+          - channel: 0
+            gain: 0
+          - channel: 2
+            gain: 0
+      - dest: 1
+        sources:
+          - channel: 1
+            gain: 0
+          - channel: 3
+            gain: 0
