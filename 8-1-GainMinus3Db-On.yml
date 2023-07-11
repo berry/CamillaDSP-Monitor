@@ -1,0 +1,8 @@
+- channel: 0
+  names:
+    - gainMinus3DbTrick
+  type: Filter
+- channel: 1
+  names:
+    - gainMinus3DbTrick
+  type: Filter

@@ -1,9 +1,8 @@
 ---
 devices:
   samplerate: 44100 # necessary for ATH-M50x convolution filter. Is 44.1k indeed necessary? Yes. It does. The ath_m50x_eq filter does sound better with 44.1k
-  # samplerate: 192000
-  chunksize: 4096
-  enable_rate_adjust: true
+  chunksize: 1024
+  enable_rate_adjust: false
   capture:
     type: CoreAudio
     device: "BlackHole 2ch"
@@ -12,8 +11,8 @@ devices:
   playback:
     type: CoreAudio
     channels: 2
-    device: "Externe koptelefoon"
-    # device: "Scarlett 2i2 USB"
+    # device: "Externe koptelefoon"
+    device: "Scarlett 2i2 USB"
     format: FLOAT32LE
     exclusive: true
 
@@ -492,6 +491,11 @@ filters:
     type: Gain
     parameters:
       gain: 6
+
+  gainMinus3DbTrick:
+    type: Gain
+    parameters:
+      gain: -3.0
 
 mixers:
   # Width
