@@ -33,11 +33,21 @@ filters:
       gain: 6.0
       inverted: false
 
-  # Master gain stage inserted by each width preset
-  master_gain:
+  # Master gain stage options
+  master_gain_6:
     type: Gain
     parameters:
       gain: 6.0
+      inverted: false
+  master_gain_9:
+    type: Gain
+    parameters:
+      gain: 9.0
+      inverted: false
+  master_gain_12:
+    type: Gain
+    parameters:
+      gain: 12.0
       inverted: false
 
   # Speaker room correction
