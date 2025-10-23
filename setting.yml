@@ -1,23 +1,22 @@
 ---
 devices:
-  samplerate: 44100
+  samplerate: 192000
   chunksize: 4096
   enable_rate_adjust: true
   capture:
     type: CoreAudio
-    device: "BlackHole 2ch"
+    device: "BlackHole 16ch"
     channels: 2
     format: FLOAT32LE
   playback:
     type: CoreAudio
     channels: 2
-    device: "MacBook Pro Speakers"
-    format: FLOAT32LE
+    device: "Scarlett 2i2 USB"
+    format: S24LE
     exclusive: true
 
 filters:
-
-# Speaker room correction
+  # Speaker room correction
 
   leftFront_1:
     parameters:
@@ -259,7 +258,7 @@ filters:
       type: Peaking
     type: Biquad
 
-# Headphone EQ
+  # Headphone EQ
 
   band_1:
     parameters:
@@ -331,8 +330,8 @@ filters:
       q: 0.71
       type: Highshelf
     type: Biquad
- 
-# Headphone crossfeed
+
+  # Headphone crossfeed
 
   cx1_hi:
     parameters:
@@ -424,7 +423,7 @@ filters:
       gain: -5.5
       inverted: false
 
-# Phase Invert
+  # Phase Invert
 
   invert:
     type: Gain
@@ -432,7 +431,7 @@ filters:
       gain: 0.0
       inverted: true
 
-# Loudness
+  # Loudness
 
   loudness:
     type: Loudness
@@ -441,7 +440,7 @@ filters:
       high_boost: 7.0
       low_boost: 7.0
 
-# DC Protection
+  # DC Protection
 
   dcp:
     parameters:
@@ -449,7 +448,7 @@ filters:
       type: HighpassFO
     type: Biquad
 
-# Emphasis
+  # Emphasis
 
   preemphasis:
     parameters:
@@ -458,7 +457,7 @@ filters:
       q: 0.5
       type: Highshelf
     type: Biquad
- 
+
   deemphasis:
     parameters:
       freq: 5200
@@ -468,100 +467,99 @@ filters:
     type: Biquad
 
 mixers:
-
-# Width
+  # Width
 
   mono:
     channels:
       in: 2
       out: 2
     mapping:
-    - dest: 0
-      sources:
-      - channel: 0
-        gain: -6.02
-      - channel: 1
-        gain: -6.02
-    - dest: 1
-      sources:
-      - channel: 0
-        gain: -6.02
-      - channel: 1
-        gain: -6.02
+      - dest: 0
+        sources:
+          - channel: 0
+            gain: -6.02
+          - channel: 1
+            gain: -6.02
+      - dest: 1
+        sources:
+          - channel: 0
+            gain: -6.02
+          - channel: 1
+            gain: -6.02
 
   swapped:
     channels:
       in: 2
       out: 2
     mapping:
-    - dest: 0
-      sources:
-        - channel: 1
-          gain: 0
-    - dest: 1
-      sources:
-        - channel: 0
-          gain: 0
+      - dest: 0
+        sources:
+          - channel: 1
+            gain: 0
+      - dest: 1
+        sources:
+          - channel: 0
+            gain: 0
 
-# M/S Proc
+  # M/S Proc
 
   msproc:
     channels:
       in: 2
       out: 2
     mapping:
-    - dest: 0
-      sources:
-      - channel: 0
-        gain: -6.02
-      - channel: 1
-        gain: -6.02
-    - dest: 1
-      sources:
-      - channel: 0
-        gain: -6.02
-      - channel: 1
-        gain: -6.02
-        inverted: true
+      - dest: 0
+        sources:
+          - channel: 0
+            gain: -6.02
+          - channel: 1
+            gain: -6.02
+      - dest: 1
+        sources:
+          - channel: 0
+            gain: -6.02
+          - channel: 1
+            gain: -6.02
+            inverted: true
 
-# Headphone crossfeed
+  # Headphone crossfeed
 
   2to4:
     channels:
       in: 2
       out: 4
     mapping:
-    - dest: 0
-      sources:
-      - channel: 0
-        gain: 0
-    - dest: 1
-      sources:
-      - channel: 0
-        gain: 0
-    - dest: 2
-      sources:
-      - channel: 1
-        gain: 0
-    - dest: 3
-      mute: false
-      sources:
-      - channel: 1
-        gain: 0
+      - dest: 0
+        sources:
+          - channel: 0
+            gain: 0
+      - dest: 1
+        sources:
+          - channel: 0
+            gain: 0
+      - dest: 2
+        sources:
+          - channel: 1
+            gain: 0
+      - dest: 3
+        mute: false
+        sources:
+          - channel: 1
+            gain: 0
   4to2:
     channels:
       in: 4
       out: 2
     mapping:
-    - dest: 0
-      sources:
-      - channel: 0
-        gain: 0
-      - channel: 2
-        gain: 0
-    - dest: 1
-      sources:
-      - channel: 1
-        gain: 0
-      - channel: 3
-        gain: 0
+      - dest: 0
+        sources:
+          - channel: 0
+            gain: 0
+          - channel: 2
+            gain: 0
+      - dest: 1
+        sources:
+          - channel: 1
+            gain: 0
+          - channel: 3
+            gain: 0

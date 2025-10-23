@@ -6,14 +6,20 @@ devices:
   resampler:
     type: Synchronous
   capture_samplerate: 44100
+  # playback:
+  #   type: File
+  #   filename: "/dev/null"
+  #   channels: 60
+  #   format: FLOAT32LE
   playback:
-    type: File
-    filename: "/dev/null"
-    channels: 60
+    type: CoreAudio
+    channels: 2
+    device: "Scarlett 2i2 USB"
     format: FLOAT32LE
+    exclusive: true
   capture:
     type: CoreAudio
-    device: "BlackHole 2ch"
+    device: "BlackHole 16ch"
     channels: 2
     format: FLOAT32LE
 filters:
@@ -386,7 +392,6 @@ mixers:
           - channel: 1
 
 pipeline:
-
   - type: Mixer
     name: 30band
   - type: Filter
