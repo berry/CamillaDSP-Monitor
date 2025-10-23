@@ -26,7 +26,7 @@ filters:
     type: Conv
     parameters:
       type: Wav
-      filename: HpCF_Audio-Technica_ATH_M50x__Average.wav
+      filename: HpCF_Audio-Technica_ATH_M50x__Average-stereo.wav
   ath_m50x_gain:
     type: Gain
     parameters:
