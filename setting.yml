@@ -1,6 +1,6 @@
 ---
 devices:
-  samplerate: 192000
+  samplerate: 44100
   chunksize: 4096
   enable_rate_adjust: true
   capture:
@@ -11,11 +11,28 @@ devices:
   playback:
     type: CoreAudio
     channels: 2
-    device: "Scarlett 2i2 USB"
-    format: S24LE
+    # device: "Scarlett 2i2 USB"
+    # format: S24LE
+    device: "Externe koptelefoon"
+    format: FLOAT32LE
     exclusive: true
 
 filters:
+  # ATH-M50x
+  # Sample rate must be set to 44100.
+  # The Audio Spatialisation for Headphones (ASH) Listening Set is a continuation of the ASH-IR-Dataset project.
+  # See: https://github.com/ShanonPearce/ASH-Listening-Set/tree/main/HpCFs/FIRs/Audio-Technica
+  ath_m50x_listening:
+    type: Conv
+    parameters:
+      type: Wav
+      filename: HpCF_Audio-Technica_ATH_M50x__Average.wav
+  ath_m50x_gain:
+    type: Gain
+    parameters:
+      gain: 6.0
+      inverted: false
+
   # Speaker room correction
 
   leftFront_1:

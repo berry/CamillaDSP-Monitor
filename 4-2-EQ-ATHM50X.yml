@@ -1,0 +1,11 @@
+- type: Filter
+  channels: [0]
+  names:
+    - ath_m50x_listening
+    - ath_m50x_gain
+
+- type: Filter
+  channels: [1]
+  names:
+    - ath_m50x_listening
+    - ath_m50x_gain
