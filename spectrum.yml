@@ -1,26 +1,20 @@
 ---
 devices:
   multithreaded: true
-  samplerate: 44100
+  samplerate: 192000
   chunksize: 4096
   resampler:
     type: Synchronous
-  capture_samplerate: 44100
-  # playback:
-  #   type: File
-  #   filename: "/dev/null"
-  #   channels: 60
-  #   format: FLOAT32LE
-  playback:
-    type: CoreAudio
-    channels: 2
-    device: "Scarlett 2i2 USB"
-    format: FLOAT32LE
-    exclusive: true
+  capture_samplerate: 192000
   capture:
     type: CoreAudio
     device: "BlackHole 16ch"
     channels: 2
+    format: FLOAT32LE
+  playback:
+    type: File
+    filename: "/dev/null"
+    channels: 60
     format: FLOAT32LE
 filters:
   band_0:
