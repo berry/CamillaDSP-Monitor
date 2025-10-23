@@ -1,3 +1,6 @@
 - name: mono
   type: Mixer
-
+- type: Filter
+  channels: [0, 1]
+  names:
+    - master_gain
