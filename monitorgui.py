@@ -291,6 +291,24 @@ class ConfigWindow(Frame):
             b = 0
         return f"#{r:02x}{g:02x}{b:02x}"  # Return hex color string
 
+    def _get_level_value(self, level_dict, key, index, fallback=-100.0):
+        """
+        Safely return a level value, providing a fallback when the backend
+        reports fewer channels than expected.
+        """
+        values = None
+        try:
+            values = level_dict[key]
+        except (KeyError, TypeError):
+            if hasattr(level_dict, "get"):
+                values = level_dict.get(key)
+        else:
+            if values is None and hasattr(level_dict, "get"):
+                values = level_dict.get(key)
+        if isinstance(values, (list, tuple)) and len(values) > index:
+            return values[index]
+        return fallback
+
     def update(self):
         # This function is called periodically to update the GUI with current DSP levels
         state = self.cdsp.general.state()
@@ -298,14 +316,14 @@ class ConfigWindow(Frame):
             levels = self.cdsp.levels.levels()
             # Extract individual RMS and PEAK values for Left/Right channels
             values = [
-                levels["capture_rms"][0],
-                levels["capture_rms"][1],
-                levels["playback_rms"][0],
-                levels["playback_rms"][1],
-                levels["capture_peak"][0],
-                levels["capture_peak"][1],
-                levels["playback_peak"][0],
-                levels["playback_peak"][1],
+                self._get_level_value(levels, "capture_rms", 0),
+                self._get_level_value(levels, "capture_rms", 1),
+                self._get_level_value(levels, "playback_rms", 0),
+                self._get_level_value(levels, "playback_rms", 1),
+                self._get_level_value(levels, "capture_peak", 0),
+                self._get_level_value(levels, "capture_peak", 1),
+                self._get_level_value(levels, "playback_peak", 0),
+                self._get_level_value(levels, "playback_peak", 1),
             ]
 
             for i in range(8):

@@ -11,10 +11,10 @@ devices:
   playback:
     type: CoreAudio
     channels: 2
-    # device: "Scarlett 2i2 USB"
-    # format: S24LE
-    device: "Externe koptelefoon"
-    format: FLOAT32LE
+    device: "Scarlett 2i2 USB"
+    format: S24LE
+    # device: "Externe koptelefoon"
+    # format: FLOAT32LE
     exclusive: true
 
 filters:
