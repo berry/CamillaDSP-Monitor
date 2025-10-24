@@ -1,14 +1,14 @@
 ---
 devices:
   multithreaded: true
-  samplerate: 44100
+  samplerate: 192000
   chunksize: 4096
   resampler:
     type: Synchronous
-  capture_samplerate: 44100
+  capture_samplerate: 192000
   capture:
     type: CoreAudio
-    device: "BlackHole 16ch"
+    device: "BlackHole 2ch"
     channels: 2
     format: FLOAT32LE
   playback:
